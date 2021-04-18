@@ -5,6 +5,6 @@ import de.niesche.commons.ratelimiter.IRateLimiter.ITimeSource;
 public final class TimeSourceSystemMillis implements ITimeSource {
   @Override
   public long currentTimeMillis() {
-    return 0;
+    return System.currentTimeMillis();
   }
 }

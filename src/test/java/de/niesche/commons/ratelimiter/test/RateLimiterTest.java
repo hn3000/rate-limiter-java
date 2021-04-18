@@ -26,8 +26,8 @@ public class RateLimiterTest {
     Assert.assertNotNull(limiter);
 
     // we should never take 50ms to get here ...
+    Assert.assertTrue(950 <= limiter.waitTimeForAmount(1.0));
     Assert.assertTrue(limiter.waitTimeForAmount(1.0) <= 1000);
-    Assert.assertTrue(limiter.waitTimeForAmount(1.0) >= 950);
   }
 
   @Test
@@ -36,8 +36,25 @@ public class RateLimiterTest {
     Assert.assertNotNull(limiter);
 
     // we should never take 50ms to get here ...
+    Assert.assertTrue(950 <= limiter.waitTimeForAmount(1.0));
     Assert.assertTrue(limiter.waitTimeForAmount(1.0) <= 1000);
-    Assert.assertTrue(limiter.waitTimeForAmount(1.0) >= 950);
+  }
+
+  @Test
+  public void testRateLimiterDefaultTimeSourceProgressesWhenWeWait() {
+    IRateLimiter limiter = RateLimiterTokenBucket.create(1.0, 5.0);
+    Assert.assertNotNull(limiter);
+
+    // we should never take 50ms to get here ...
+    Assert.assertTrue(950 <= limiter.waitTimeForAmount(1.0));
+    Assert.assertTrue(limiter.waitTimeForAmount(1.0) <= 1000);
+    try {
+      Thread.sleep(500L);
+    } catch (InterruptedException e) {
+      // interrupted? Oh, the insolence!
+    }
+    Assert.assertTrue(450 <= limiter.waitTimeForAmount(1.0));
+    Assert.assertTrue(limiter.waitTimeForAmount(1.0) <= 500);
   }
 
   @Test
@@ -65,7 +82,6 @@ public class RateLimiterTest {
     Assert.assertEquals(0, limiter.waitTimeForAmount());
   }
 
-  
   @Test
   public void testRateLimiterGivesFreshAmountAfterSomeTime() {
     TimeSourceAdjustable timeSource = new TimeSourceAdjustable(0);
