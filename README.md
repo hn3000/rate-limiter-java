@@ -25,5 +25,12 @@ these are not done yet:
 * an implementation of synchronization (making it thread safe in a way that seems to have obviously no errors, as opposed to no obvious errors)
 * a wrapper for waiting until tokens are available (which is interruptible, because I don't see why it should not)
 
+
+Note: Naming of interfaces follows the convention that they are prefixed with
+a capital I. While it may no longer be particularly useful when dependency
+injection is used (because you are never tempted to use new, anyway), 
+I sometimes find it useful to know that something is an interface. The
+[eclipse naming conventions] have this rule. 
 ---
 [token bucket]: https://en.wikipedia.org/wiki/Token_bucket
+[eclipse naming conventions]: https://wiki.eclipse.org/Naming_Conventions#Classes_and_Interfaces
